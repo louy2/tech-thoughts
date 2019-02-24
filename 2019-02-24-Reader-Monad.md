@@ -79,3 +79,43 @@ elemIndex :: Eq a => a -> ([a] -> Maybe Int)     -- |
                               elemIndex =<< maximum :: Ord a => [a] -> Maybe Int
 ```
 
+`@dminuoso` told me that this Monad is often called a Reader Monad.
+It is used to keep a shared environment between functions, 
+making passing the environment implicit. 
+He challenged me to implement the `Reader` myself.
+So I started.
+
+First, the boilerplate code.
+
+```haskell
+{-# LANGUAGE InstanceSigs #-}
+
+newtype Reader e a = Reader (e -> a)
+
+instance Monad (Reader e) where
+    (>>=) :: Reader e a -> (a -> Reader e b) -> Reader e b
+    (>>=) = undefined
+```
+
+The `InstanceSigs` pragma lets me annotate the unified type signature in the instance,
+so that I am sure I have the types right before I start implementing.
+
+First error:
+
+> • No instance for (Applicative (Reader e))
+    arising from the superclasses of an instance declaration
+> • In the instance declaration for ‘Monad (Reader e)’
+
+That's straightforward, I just need to add implementation for `Applicative` too:
+
+```haskell
+instance Applicative (Reader e) where
+    pure :: a -> Reader e a
+    (<*>) :: Reader e (a -> b) -> Reader e a -> Reader e b
+```
+
+This error again:
+
+> • No instance for (Functor (Reader e))
+    arising from the superclasses of an instance declaration
+> • In the instance declaration for ‘Applicative (Reader e)’
