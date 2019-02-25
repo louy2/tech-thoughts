@@ -320,7 +320,7 @@ I felt so dumb.
 
 Anyway, the implementation of `Monad` on `Reader`:
 
-```hakell
+```haskell
 instance Monad (Reader e) where
     (>>=) :: Reader e a -> (a -> Reader e b) -> Reader e b
     (>>=) (Reader e2a) a2reb = let e2b e = runReader (a2reb (e2a e)) e in Reader e2b
