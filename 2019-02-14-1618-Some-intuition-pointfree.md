@@ -110,7 +110,7 @@ g :: Int -> Int -> [[Char]]
 
 (\* If `g w h` is `g h w` instead, Pointfree.io gives a more complicated result. )
 
-What's new here is `flip`. `flip` flips the order of parameter of its applicant.
+What's new here is `flip`. `flip` flips the order of the parameters of a function.
 For example:
 
 ```haskell
